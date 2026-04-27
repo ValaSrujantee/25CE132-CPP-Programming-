@@ -1,96 +1,85 @@
-#include <iostream>
+#include<iostream>
+#include<string.h>
 using namespace std;
-
-class University
+class student
 {
-private:
-    int id;
+    int roll_no;
     string name;
-    float m1, m2, m3, avg;
-
+    int marks1,marks2,marks3;
+    float avg;
 public:
-    University();
-    void add_student_data();
-    float average(float, float, float);
-    void display_data();
-};
-
-University::University()
-{
-    id = 0;
-    name = "";
-    m1 = m2 = m3 = avg = 0;
-}
-
-void University::add_student_data()
-{
-    cout << "Enter ID: ";
-    cin >> id;
-    cout << "Enter Name: ";
-    cin >> name;
-    cout << "Enter Marks 1: ";
-    cin >> m1;
-    cout << "Enter Marks 2: ";
-    cin >> m2;
-    cout << "Enter Marks 3: ";
-    cin >> m3;
-    avg = average(m1, m2, m3);
-}
-
-float University::average(float a, float b, float c)
-{
-    return (a + b + c) / 3.0;
-}
-
-void University::display_data()
-{
-    cout << "\nID: " << id;
-    cout << "\nName: " << name;
-    cout << "\nMarks: " << m1 << ", " << m2 << ", " << m3;
-    cout << "\nAverage: " << avg << endl;
-}
-
-int main()
-{
-    University u[100];
-    int choice, count = 0;
-
-    while (true)
+    student()
     {
-        cout << "\n--- MENU ---";
-        cout << "\n1. Add student data";
-        cout << "\n2. Display student data";
-        cout << "\n3. Exit";
-        cout << "\nEnter choice: ";
-        cin >> choice;
+        int roll = 0;
+        int m1=0,m2=0,m3=0;
+    }
 
-        switch (choice)
-        {
-        case 1:
-            u[count].add_student_data();
-            count++;
-            break;
+    student(int,string,int,int,int);
+    void display();
+    float average(int,int,int);
+};
+student::student(int r,string n,int m1,int m2,int m3)
+{
+    if(r<=0||m1<=0||m2<=0||m3<=0)
+    {
+        cout<<"Invalid input";
 
-        case 2:
-            if (count == 0)
-            {
-                cout << "No student data available.\n";
-            }
-            else
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    u[i].display_data();
-                }
-            }
-            break;
-
-        case 3:
-            return 0;
-
-        default:
-            cout << "Invalid choice!";
-        }
+    }
+    else
+    {
+        roll_no=r;
+        name=n;
+        marks1=m1;
+        marks2=m2;
+        marks3=m3;
     }
 }
+float student::average(int marks1,int marks2,int marks3)
+{
+    return (marks1+marks2+marks3)/3.0;
+}
+void student::display()
+{
 
+    cout<<"Student Roll number is : "<<roll_no<<endl;
+    cout<<"Student Name is : "<<name<<endl;
+    cout<<"Student average is : "<<average(marks1,marks2,marks3)<<endl<<endl;
+}
+int main()
+{
+    int n,m1,m2,m3,r,i;
+    string na;
+    cout<<"Enter number of students you want to store marks for: ";
+    cin>>n;
+    student st;
+    student s[n];
+    for(i=0; i<n; i++)
+    {
+        cout<<"Enter roll number of student "<<i+1<<" : ";
+        cin>>r;
+        fflush(stdin);
+        cout<<"Enter student name :";
+l:
+        getline(cin, na);
+        if(na == "" )
+            goto l;
+
+        cout<<"Enter marks of subject "<<i+1<<" : ";
+        cin>>m1;
+        cout<<"Enter marks of subject "<<i+2<<" : ";
+        cin>>m2;
+        cout<<"Enter marks of subject "<<i+3<<" : ";
+        cin>>m3;
+        s[i]=student(r,na,m1,m2,m3);
+        fflush(stdin);
+    }
+    cout<<endl<<endl<<"STUDENT RESULT"<<endl<<endl;
+    st.display();
+    for(i=0; i<n; i++)
+    {
+        s[i].display();
+    }
+
+
+    return 0;
+}
